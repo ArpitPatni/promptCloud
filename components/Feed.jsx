@@ -25,12 +25,15 @@ const Feed = () => {
   const [searchText, setSearchText] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [searchedResults, setSearchedResults] = useState([]);
+  const [loading,setLoading]=useState(false)
 
   const fetchPosts = async () => {
+    setLoading(true)
     const response = await fetch("/api/prompt");
     const data = await response.json();
 
     setAllPosts(data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -80,6 +83,7 @@ const Feed = () => {
         />
       </form>
 
+    {loading&&<h1 className="mt-3">Loading...</h1>}
       {/* All Prompts */}
       {searchText ? (
         <PromptCardList
